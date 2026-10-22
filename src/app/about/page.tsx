@@ -18,6 +18,8 @@ const checklist = [
   ["Final talk & live demo", "This live website", "/"],
 ];
 
+const memberColors = ["bg-pool", "bg-sun", "bg-leaf", "bg-flame", "bg-blush"];
+
 const aiUses = [
   {
     task: "Coding the website",
@@ -51,41 +53,43 @@ const sources = [
 export default function AboutPage() {
   return (
     <>
-      <PageHero number="08" eyebrow="About the Project" title="Who made this, and how">
+      <PageHero number="08" eyebrow="About the Project" title="Who made this, and how" color="sun" art="venn">
         {site.course} · {site.instructor} · {site.school}
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-20">
         <SectionTitle kicker="The group" title="Credits">
           {site.section}. Supports <strong className="text-ink">ILO 2</strong>: using mathematics as a language.
         </SectionTitle>
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {site.members.map((m) => (
-            <li key={m.name} className="rounded-2xl border border-line bg-card p-5 text-center">
-              <div className="hex mx-auto grid size-16 place-items-center bg-maroon font-display text-2xl text-gold-soft">
+        <ul className="mt-10 grid grid-cols-2 gap-[3px] border-[3px] border-ink bg-ink sm:grid-cols-3 lg:grid-cols-5">
+          {site.members.map((m, i) => (
+            <li key={m.name} className="bg-paper p-5">
+              <div
+                className={`grid size-16 place-items-center border-[3px] border-ink text-3xl font-extrabold ${memberColors[i % memberColors.length]}`}
+              >
                 {m.name.charAt(0)}
               </div>
-              <p className="mt-3 font-semibold text-ink">{m.name}</p>
-              <p className="mt-1 text-xs text-muted">{m.role}</p>
+              <p className="mt-4 text-lg font-extrabold">{m.name}</p>
+              <p className="mt-1 text-sm text-muted">{m.role}</p>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="bg-card py-16">
+      <section className="border-y-[3px] border-ink bg-mist py-20">
         <div className="mx-auto max-w-6xl px-4">
           <SectionTitle kicker="Requirements" title="Must-have checklist">
             Every required item, and where to find it on the site.
           </SectionTitle>
-          <ul className="mt-8 grid gap-3 md:grid-cols-3">
+          <ul className="mt-10 grid gap-[3px] border-[3px] border-ink bg-ink md:grid-cols-3">
             {checklist.map(([item, how, href]) => (
-              <li key={item}>
-                <Link href={href} className="flex h-full gap-3 rounded-xl border border-line bg-paper p-4 hover:border-gold">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-maroon text-xs text-paper" aria-hidden>
+              <li key={item} className="bg-paper">
+                <Link href={href} className="flex h-full gap-3 p-5 transition-colors hover:bg-leaf">
+                  <span className="grid size-7 shrink-0 place-items-center border-2 border-ink bg-leaf text-sm font-bold" aria-hidden>
                     ✓
                   </span>
                   <span>
-                    <span className="block font-semibold text-ink">{item}</span>
+                    <span className="block font-extrabold">{item}</span>
                     <span className="mt-0.5 block text-sm text-muted">{how}</span>
                   </span>
                 </Link>
@@ -95,28 +99,28 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="ai" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-16">
+      <section id="ai" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-20">
         <SectionTitle kicker="Using AI the right way" title="How we used AI">
           “AI can help the mathematician. It cannot replace the mathematician.” Here is exactly what AI did, and what we
           checked.
         </SectionTitle>
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-line">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="bg-maroon text-paper">
+        <div className="box mt-10 overflow-x-auto bg-paper">
+          <table className="w-full min-w-[640px] text-left">
+            <thead className="border-b-[3px] border-ink bg-pool text-sm font-bold uppercase">
               <tr>
-                <th className="px-4 py-3">Task</th>
-                <th className="px-4 py-3">Tool</th>
-                <th className="px-4 py-3">What AI did</th>
-                <th className="px-4 py-3">What we checked</th>
+                <th className="px-5 py-3">Task</th>
+                <th className="px-5 py-3">Tool</th>
+                <th className="px-5 py-3">What AI did</th>
+                <th className="px-5 py-3">What we checked</th>
               </tr>
             </thead>
             <tbody>
               {aiUses.map((u) => (
-                <tr key={u.task} className="border-t border-line bg-white align-top">
-                  <td className="px-4 py-3 font-semibold text-maroon">{u.task}</td>
-                  <td className="px-4 py-3 text-muted">{u.tool}</td>
-                  <td className="px-4 py-3">{u.did}</td>
-                  <td className="px-4 py-3">{u.checked}</td>
+                <tr key={u.task} className="border-t-2 border-ink align-top first:border-t-0">
+                  <td className="px-5 py-4 font-extrabold">{u.task}</td>
+                  <td className="px-5 py-4 text-muted">{u.tool}</td>
+                  <td className="px-5 py-4">{u.did}</td>
+                  <td className="px-5 py-4">{u.checked}</td>
                 </tr>
               ))}
             </tbody>
@@ -124,39 +128,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="sources" className="bg-card py-16">
-        <div className="mx-auto max-w-6xl scroll-mt-24 px-4">
+      <section id="sources" className="scroll-mt-24 border-t-[3px] border-ink bg-mist py-20">
+        <div className="mx-auto max-w-6xl px-4">
           <SectionTitle kicker="References" title="Sources" />
-          <div className="mt-8 grid gap-10 md:grid-cols-2">
-            <div>
-              <h3 className="font-display text-lg font-semibold text-maroon">Books & documents</h3>
-              <ul className="mt-3 space-y-2 text-sm text-ink/80">
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div className="box bg-paper">
+              <h3 className="border-b-[3px] border-ink bg-sun px-5 py-3 text-lg font-extrabold">Books & documents</h3>
+              <ul className="divide-y-2 divide-ink">
                 {sources.map((s) => (
-                  <li key={s} className="border-l-2 border-gold pl-3">
+                  <li key={s} className="px-5 py-3 text-sm">
                     {s}
                   </li>
                 ))}
               </ul>
             </div>
-            <div>
-              <h3 className="font-display text-lg font-semibold text-maroon">Videos</h3>
-              <ul className="mt-3 space-y-2 text-sm text-ink/80">
+            <div className="box bg-paper">
+              <h3 className="border-b-[3px] border-ink bg-flame px-5 py-3 text-lg font-extrabold">Videos</h3>
+              <ul className="divide-y-2 divide-ink">
                 {shorts.map((v) => (
-                  <li key={v.id} className="border-l-2 border-gold pl-3">
+                  <li key={v.id} className="px-5 py-3 text-sm">
                     {v.by}. <em>{v.title}</em>. YouTube.{" "}
-                    <a
-                      href={`https://www.youtube.com/watch?v=${v.id}`}
-                      className="text-maroon underline decoration-gold underline-offset-2"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a href={`https://www.youtube.com/watch?v=${v.id}`} className="link break-all" target="_blank" rel="noreferrer">
                       youtube.com/watch?v={v.id}
                     </a>
                   </li>
                 ))}
               </ul>
-              <h3 className="mt-8 font-display text-lg font-semibold text-maroon">Built with</h3>
-              <p className="mt-2 text-sm text-ink/80">Next.js · Supabase (database) · Vercel (hosting) · GitHub (code)</p>
+              <p className="border-t-[3px] border-ink px-5 py-3 text-sm">
+                <strong>Built with:</strong> Next.js · Supabase (database) · Vercel (hosting) · GitHub (code)
+              </p>
             </div>
           </div>
         </div>

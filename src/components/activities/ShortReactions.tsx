@@ -10,7 +10,6 @@ export function ShortReactions({ video }: { video: string }) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs text-muted">How was it?</span>
       {reactions.map((r) => (
         <button
           key={r.id}
@@ -21,15 +20,15 @@ export function ShortReactions({ video }: { video: string }) {
             setChosen(r.id);
             record({ activity: "short-reaction", video, reaction: r.id });
           }}
-          className={`rounded-full border px-3 py-1 text-sm transition ${
-            chosen === r.id ? "border-maroon bg-maroon text-paper" : "border-line bg-white hover:border-gold"
+          className={`border-2 border-ink px-3 py-1 text-sm font-semibold transition ${
+            chosen === r.id ? "bg-sun" : "bg-paper hover:bg-pool/30"
           }`}
         >
           <span aria-hidden>{r.emoji}</span> {r.label}
         </button>
       ))}
-      {status === "saved" && <span className="text-xs text-emerald-800">Thanks!</span>}
-      {status === "error" && <span className="text-xs text-red-800">Not saved</span>}
+      {status === "saved" && <span className="text-sm font-semibold">Thanks!</span>}
+      {status === "error" && <span className="text-sm font-semibold">Not saved</span>}
     </div>
   );
 }

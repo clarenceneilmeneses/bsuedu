@@ -42,8 +42,8 @@ export function ReasoningSorter() {
       {items.map((it, i) => {
         const a = answers[i];
         return (
-          <div key={i} className="rounded-xl border border-line bg-white p-4">
-            <p className="text-ink">“{it.text}”</p>
+          <div key={i} className="border-[3px] border-ink bg-paper p-4">
+            <p className="text-lg font-medium">“{it.text}”</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
               {(["inductive", "deductive"] as Kind[]).map((k) => (
                 <button
@@ -51,14 +51,14 @@ export function ReasoningSorter() {
                   type="button"
                   disabled={a !== null}
                   onClick={() => setAnswers((prev) => prev.map((x, j) => (j === i ? k : x)))}
-                  className={`rounded-full border px-3 py-1 text-sm capitalize ${
+                  className={`border-2 border-ink px-3 py-1 text-sm font-bold uppercase ${
                     a === null
-                      ? "border-line hover:border-gold"
+                      ? "bg-paper hover:bg-sun"
                       : k === it.kind
-                        ? "border-emerald-700 bg-emerald-50 text-emerald-900"
+                        ? "bg-leaf"
                         : a === k
-                          ? "border-red-700 bg-red-50 text-red-900"
-                          : "border-line opacity-50"
+                          ? "bg-flame"
+                          : "bg-paper opacity-40"
                   }`}
                 >
                   {k}
@@ -70,16 +70,18 @@ export function ReasoningSorter() {
         );
       })}
       {done && (
-        <p className="font-display text-xl text-maroon">
-          {score}/{items.length} sorted correctly.{" "}
+        <div className="flex flex-wrap items-center gap-4 pt-2">
+          <p className="text-2xl font-extrabold">
+            {score}/{items.length} sorted correctly.
+          </p>
           <button
             type="button"
-            className="text-sm font-sans text-muted underline"
+            className="border-2 border-ink px-3 py-1 text-sm font-bold uppercase hover:bg-pool"
             onClick={() => setAnswers(items.map(() => null))}
           >
-            reset
+            Reset
           </button>
-        </p>
+        </div>
       )}
     </div>
   );

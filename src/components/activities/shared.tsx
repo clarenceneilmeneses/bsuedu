@@ -37,44 +37,54 @@ export function useRecord() {
 }
 
 export function SaveStatus({ pending, status, error }: { pending: boolean; status: string; error: string }) {
-  if (pending) return <p className="text-sm text-muted">Saving your answer…</p>;
+  if (pending) return <p className="text-sm font-medium">Saving your answer…</p>;
   if (status === "saved")
     return (
-      <p className="text-sm text-emerald-800">
-        ✓ Saved! Your answer is now part of our{" "}
-        <Link href="/discover" className="font-semibold underline decoration-gold underline-offset-2">
+      <p className="border-2 border-ink bg-leaf px-3 py-1.5 text-sm font-semibold">
+        ✓ Saved! It&apos;s now part of our{" "}
+        <Link href="/discover" className="link">
           live findings
         </Link>
         .
       </p>
     );
-  if (status === "error") return <p className="text-sm text-red-800">{error}</p>;
+  if (status === "error") return <p className="border-2 border-ink bg-flame px-3 py-1.5 text-sm font-semibold">{error}</p>;
   return null;
 }
+
+const tagColors = {
+  pool: "bg-pool",
+  sun: "bg-sun",
+  leaf: "bg-leaf",
+  flame: "bg-flame",
+  blush: "bg-blush",
+} as const;
 
 export function ActivityCard({
   id,
   tag,
   title,
   topic,
+  color = "pool",
   children,
 }: {
   id: string;
   tag: string;
   title: string;
   topic: string;
+  color?: keyof typeof tagColors;
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 overflow-hidden rounded-2xl border border-line bg-card shadow-sm">
-      <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper/60 px-5 py-4 sm:px-7">
+    <section id={id} className="box scroll-mt-36 bg-paper">
+      <header className={`flex flex-wrap items-end justify-between gap-3 border-b-[3px] border-ink px-5 py-5 sm:px-8 ${tagColors[color]}`}>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">{tag}</p>
-          <h3 className="font-display text-2xl font-semibold text-maroon">{title}</h3>
+          <p className="text-xs font-bold uppercase tracking-wide">{tag}</p>
+          <h3 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h3>
         </div>
-        <span className="rounded-full bg-maroon/10 px-3 py-1 text-xs font-medium text-maroon">{topic}</span>
+        <span className="border-2 border-ink bg-paper px-2.5 py-1 text-xs font-bold uppercase">{topic}</span>
       </header>
-      <div className="px-5 py-6 sm:px-7">{children}</div>
+      <div className="px-5 py-7 sm:px-8">{children}</div>
     </section>
   );
 }
@@ -94,19 +104,19 @@ export function ChoiceButton({
 }) {
   const look =
     state === "right"
-      ? "border-emerald-700 bg-emerald-50 text-emerald-900"
+      ? "bg-leaf"
       : state === "wrong"
-        ? "border-red-700 bg-red-50 text-red-900"
+        ? "bg-flame"
         : selected
-          ? "border-maroon bg-maroon text-paper"
-          : "border-line bg-white hover:border-gold hover:bg-gold/10";
+          ? "bg-sun"
+          : "bg-paper hover:bg-pool/25";
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
       aria-pressed={selected}
-      className={`w-full rounded-xl border-2 px-4 py-3 text-left transition-colors disabled:cursor-default ${look}`}
+      className={`w-full border-2 border-ink px-4 py-3 text-left font-medium transition-colors disabled:cursor-default ${look}`}
     >
       {children}
     </button>
@@ -129,7 +139,7 @@ export function PrimaryButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center gap-2 rounded-full bg-maroon px-5 py-2.5 font-semibold text-paper shadow-sm transition hover:bg-maroon-soft disabled:cursor-not-allowed disabled:opacity-40"
+      className="inline-flex items-center gap-2 border-[3px] border-ink bg-ink px-5 py-2.5 font-bold uppercase tracking-tight text-paper transition hover:bg-sun hover:text-ink disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-ink disabled:hover:text-paper"
     >
       {children}
     </button>
@@ -141,7 +151,7 @@ export function GhostButton({ children, onClick }: { children: ReactNode; onClic
     <button
       type="button"
       onClick={onClick}
-      className="rounded-full border border-maroon/30 px-4 py-2 text-sm font-medium text-maroon hover:bg-maroon/5"
+      className="border-[3px] border-ink bg-paper px-4 py-2 text-sm font-bold uppercase hover:bg-pool"
     >
       {children}
     </button>

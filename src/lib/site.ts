@@ -15,13 +15,14 @@ export const site = {
   ],
 };
 
+// `short` is used in the desktop header where space is tight.
 export const nav = [
-  { href: "/", label: "Home" },
-  { href: "/explore", label: "Explore Math" },
-  { href: "/interact", label: "Interact" },
-  { href: "/math-in-action", label: "Math in Action" },
-  { href: "/discover", label: "What Did We Discover?" },
-  { href: "/community", label: "Math Community" },
-  { href: "/shorts", label: "Math Shorts" },
-  { href: "/about", label: "About" },
+  { href: "/", label: "Home", short: "Home" },
+  { href: "/explore", label: "Explore Math", short: "Explore" },
+  { href: "/interact", label: "Interact", short: "Interact" },
+  { href: "/math-in-action", label: "Math in Action", short: "In Action" },
+  { href: "/discover", label: "What Did We Discover?", short: "Discover" },
+  { href: "/community", label: "Math Community", short: "Community" },
+  { href: "/shorts", label: "Math Shorts", short: "Shorts" },
+  { href: "/about", label: "About the Project", short: "About" },
 ] as const;

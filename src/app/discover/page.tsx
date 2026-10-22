@@ -8,6 +8,8 @@ import { getStats, MIN_N, type Stats } from "@/lib/stats";
 
 export const metadata: Metadata = { title: "What Did We Discover?" };
 
+const accents = ["bg-pool", "bg-sun", "bg-leaf", "bg-flame", "bg-blush"];
+
 function Finding({
   id,
   number,
@@ -33,49 +35,53 @@ function Finding({
 }) {
   const enough = n >= MIN_N;
   return (
-    <article id={id} className="scroll-mt-24 overflow-hidden rounded-2xl border border-line bg-card shadow-sm">
-      <header className="flex flex-wrap items-start justify-between gap-3 border-b border-line px-5 py-4 sm:px-7">
-        <div className="flex items-start gap-3">
-          <span className="hex grid size-10 shrink-0 place-items-center bg-maroon font-display text-paper">{number}</span>
+    <article id={id} className="box scroll-mt-24 bg-paper">
+      <header
+        className={`flex flex-wrap items-center justify-between gap-3 border-b-[3px] border-ink px-5 py-4 sm:px-7 ${enough ? accents[number % accents.length] : "bg-mist"}`}
+      >
+        <div className="flex items-center gap-4">
+          <span className="grid size-12 shrink-0 place-items-center border-[3px] border-ink bg-paper text-2xl font-extrabold">
+            {number}
+          </span>
           <div>
-            <h2 className="font-display text-xl font-semibold text-maroon sm:text-2xl">{title}</h2>
-            <p className="text-sm text-muted">
+            <h2 className="text-xl font-extrabold tracking-tight sm:text-2xl">{title}</h2>
+            <p className="text-sm">
               From{" "}
-              <Link href={sourceHref} className="underline decoration-gold underline-offset-2">
+              <Link href={sourceHref} className="link font-semibold">
                 {source}
               </Link>
             </p>
           </div>
         </div>
-        <span className="rounded-full bg-paper px-3 py-1 font-mono text-xs text-muted">n = {n}</span>
+        <span className="border-2 border-ink bg-paper px-2.5 py-1 font-mono text-sm font-semibold">n = {n}</span>
       </header>
       {enough ? (
-        <div className="grid gap-6 px-5 py-6 sm:px-7 lg:grid-cols-[1.15fr_1fr]">
-          <div>{children}</div>
-          <div className="space-y-4 text-sm">
+        <div className="grid lg:grid-cols-[1.15fr_1fr]">
+          <div className="p-5 sm:p-7">{children}</div>
+          <div className="space-y-5 border-t-[3px] border-ink p-5 sm:p-7 lg:border-t-0 lg:border-l-[3px]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">What the data shows</p>
-              <p className="mt-1 text-ink">{shows}</p>
+              <p className="inline-block bg-ink px-2 py-0.5 text-xs font-bold uppercase text-paper">What the data shows</p>
+              <p className="mt-2">{shows}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">Why it might be</p>
-              <p className="mt-1 text-ink/80">{means}</p>
+              <p className="inline-block bg-ink px-2 py-0.5 text-xs font-bold uppercase text-paper">Why it might be</p>
+              <p className="mt-2">{means}</p>
             </div>
             {caution && (
-              <p className="rounded-lg bg-paper p-3 text-xs text-muted">
-                <strong className="text-ink">Careful:</strong> {caution}
+              <p className="border-l-[6px] border-ink bg-mist p-3 text-sm">
+                <strong>Careful:</strong> {caution}
               </p>
             )}
           </div>
         </div>
       ) : (
-        <div className="px-5 py-8 text-center sm:px-7">
-          <p className="text-muted">
-            We need at least {MIN_N} responses before stating a finding. We have {n} so far.
+        <div className="px-5 py-10 text-center sm:px-7">
+          <p className="text-lg">
+            We need at least {MIN_N} responses before stating a finding. We have <strong>{n}</strong> so far.
           </p>
           <Link
             href={sourceHref}
-            className="mt-3 inline-flex rounded-full bg-maroon px-5 py-2 text-sm font-semibold text-paper hover:bg-maroon-soft"
+            className="mt-4 inline-flex border-[3px] border-ink bg-ink px-5 py-2.5 font-bold uppercase text-paper hover:bg-sun hover:text-ink"
           >
             Add your answer →
           </Link>
@@ -263,21 +269,21 @@ async function LiveFindings() {
   const s = await getStats();
   if (!s)
     return (
-      <p className="rounded-2xl border border-line bg-card p-8 text-center text-muted">
+      <p className="box bg-mist p-8 text-center text-lg">
         The database isn&apos;t connected yet, so there&apos;s no data to show.
       </p>
     );
   return (
     <>
-      <dl className="mb-10 grid grid-cols-3 gap-3">
+      <dl className="mb-12 grid grid-cols-3 gap-[3px] border-[3px] border-ink bg-ink">
         {[
-          ["Unique visitors", s.totals.visitors],
-          ["Answers collected", s.totals.responses],
-          ["Wall posts", s.totals.wallPosts],
-        ].map(([label, value]) => (
-          <div key={label} className="rounded-2xl bg-maroon p-4 text-paper sm:p-6">
-            <dt className="text-xs uppercase tracking-wider text-gold-soft sm:text-sm">{label}</dt>
-            <dd className="mt-1 font-display text-3xl font-semibold sm:text-5xl">{value}</dd>
+          ["Unique visitors", s.totals.visitors, "bg-pool"],
+          ["Answers collected", s.totals.responses, "bg-sun"],
+          ["Wall posts", s.totals.wallPosts, "bg-blush"],
+        ].map(([label, value, color]) => (
+          <div key={label} className={`p-4 sm:p-7 ${color}`}>
+            <dt className="text-xs font-bold uppercase sm:text-sm">{label}</dt>
+            <dd className="mt-2 text-4xl font-extrabold tracking-tight sm:text-6xl">{value}</dd>
           </div>
         ))}
       </dl>
@@ -289,12 +295,12 @@ async function LiveFindings() {
 export default function DiscoverPage() {
   return (
     <>
-      <PageHero number="05" eyebrow="What Did We Discover?" title="Our visitors, in numbers">
+      <PageHero number="05" eyebrow="What Did We Discover?" title="Our visitors, in numbers" color="ocean" art="chart">
         Every chart below is generated automatically from live visitor answers. We say what the data shows, then what it
         might mean, and we don&apos;t claim a cause without proof.
       </PageHero>
-      <div className="mx-auto max-w-6xl px-4 py-12">
-        <Suspense fallback={<p className="py-20 text-center text-muted">Crunching the numbers…</p>}>
+      <div className="mx-auto max-w-6xl px-4 py-14">
+        <Suspense fallback={<p className="py-20 text-center text-lg font-semibold">Crunching the numbers…</p>}>
           <LiveFindings />
         </Suspense>
       </div>

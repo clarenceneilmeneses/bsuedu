@@ -30,22 +30,25 @@ export function SymbolQuiz() {
   }
 
   return (
-    <ActivityCard id="symbol-quiz" tag="Activity 1 · Quiz" title="Speak Math: The Symbol Quiz" topic="B · Language & Symbols">
+    <ActivityCard
+      id="symbol-quiz"
+      tag="Activity 1 · Quiz"
+      title="Speak Math: The Symbol Quiz"
+      topic="B · Language & Symbols"
+      color="pool"
+    >
       {!done ? (
         <div>
-          <div className="mb-4 flex items-center gap-3">
-            <div className="h-1.5 flex-1 rounded-full bg-line">
-              <div
-                className="h-full rounded-full bg-gold transition-all"
-                style={{ width: `${(index / symbolQuiz.length) * 100}%` }}
-              />
+          <div className="mb-5 flex items-center gap-3">
+            <div className="h-4 flex-1 border-2 border-ink">
+              <div className="h-full bg-sun transition-all" style={{ width: `${(index / symbolQuiz.length) * 100}%` }} />
             </div>
-            <span className="font-mono text-xs text-muted">
+            <span className="font-mono text-sm font-semibold">
               {index + 1}/{symbolQuiz.length}
             </span>
           </div>
-          <p className="font-display text-xl text-ink sm:text-2xl">{q.prompt}</p>
-          <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+          <p className="text-2xl font-extrabold tracking-tight sm:text-3xl">{q.prompt}</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {q.choices.map((c, i) => (
               <ChoiceButton
                 key={c}
@@ -58,11 +61,9 @@ export function SymbolQuiz() {
             ))}
           </div>
           {picked !== null && (
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-paper p-4">
-              <p className="text-sm">
-                <strong className={picked === q.answer ? "text-emerald-800" : "text-red-800"}>
-                  {picked === q.answer ? "Correct! " : "Not quite. "}
-                </strong>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-[3px] border-ink bg-mist p-4">
+              <p>
+                <strong>{picked === q.answer ? "Correct! " : "Not quite. "}</strong>
                 {q.why}
               </p>
               <PrimaryButton onClick={next}>{index + 1 === symbolQuiz.length ? "See my score" : "Next →"}</PrimaryButton>
@@ -70,17 +71,17 @@ export function SymbolQuiz() {
           )}
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-[auto_1fr] sm:items-center">
-          <div className="hex grid size-36 place-items-center bg-maroon text-paper">
+        <div className="grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
+          <div className="grid size-40 place-items-center border-[3px] border-ink bg-sun">
             <div className="text-center">
-              <p className="font-display text-4xl font-semibold">
+              <p className="text-5xl font-extrabold">
                 {score}/{symbolQuiz.length}
               </p>
-              <p className="text-xs uppercase tracking-widest text-gold-soft">score</p>
+              <p className="text-xs font-bold uppercase">score</p>
             </div>
           </div>
-          <div className="space-y-3">
-            <p className="font-display text-2xl text-maroon">
+          <div className="space-y-4">
+            <p className="text-3xl font-extrabold tracking-tight">
               {score === symbolQuiz.length
                 ? "Fluent in math! 🎓"
                 : score >= 6
@@ -90,11 +91,11 @@ export function SymbolQuiz() {
                     : "Every language takes practice."}
             </p>
             <p className="text-muted">
-              Math symbols are a language: short, precise and the same in every country. Review them on the{" "}
-              <Link href="/explore#language" className="underline decoration-gold underline-offset-2">
+              Math symbols are a language: short, precise and the same in every country. Review them on{" "}
+              <Link href="/explore#language" className="link font-semibold text-ink">
                 Explore Math
-              </Link>{" "}
-              page.
+              </Link>
+              .
             </p>
             <SaveStatus {...save} />
             <GhostButton onClick={restart}>Try again</GhostButton>

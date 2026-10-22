@@ -1,32 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --maroon: #6e0f12;
-  --maroon-deep: #4a090b;
-  --maroon-soft: #8c1d22;
-  --gold: #c99a2e;
-  --gold-soft: #e9c968;
-  --paper: #f6f2ea;
-  --card: #fffdf8;
-  --ink: #241a17;
-  --muted: #6f625b;
-  --line: #e4dacb;
+  --ink: #0d0d0d;
+  --paper: #ffffff;
+  --mist: #f2efea;
+  --pool: #0db7ea;
+  --blush: #e6c0b6;
+  --leaf: #7fe05c;
+  --flame: #ff5b22;
+  --sun: #ffc61f;
+  --ocean: #1867c9;
+  --muted: #474747;
   color-scheme: light;
 }
 
 @theme inline {
-  --color-maroon: var(--maroon);
-  --color-maroon-deep: var(--maroon-deep);
-  --color-maroon-soft: var(--maroon-soft);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
-  --color-paper: var(--paper);
-  --color-card: var(--card);
   --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-mist: var(--mist);
+  --color-pool: var(--pool);
+  --color-blush: var(--blush);
+  --color-leaf: var(--leaf);
+  --color-flame: var(--flame);
+  --color-sun: var(--sun);
+  --color-ocean: var(--ocean);
   --color-muted: var(--muted);
-  --color-line: var(--line);
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-display: var(--font-body);
   --font-mono: var(--font-mono);
 }
 
@@ -36,27 +36,22 @@ body {
 }
 
 ::selection {
-  background: var(--gold-soft);
-  color: var(--maroon-deep);
+  background: var(--sun);
+  color: var(--ink);
 }
 
-.hex {
-  clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%);
+/* The signature heavy outline used on panels, cards and inputs. */
+@utility box {
+  border: 3px solid var(--ink);
 }
 
-/* Faint graph-paper texture used behind hero sections. */
-.grid-paper {
-  background-image:
-    linear-gradient(to right, rgb(110 15 18 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(110 15 18 / 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-.grid-paper-dark {
-  background-image:
-    linear-gradient(to right, rgb(233 201 104 / 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(233 201 104 / 0.08) 1px, transparent 1px);
-  background-size: 28px 28px;
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  &:hover {
+    text-decoration-thickness: 4px;
+  }
 }
 
 @keyframes grow-bar {
@@ -66,10 +61,6 @@ body {
 .bar-fill {
   transform-origin: left;
   animation: grow-bar 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

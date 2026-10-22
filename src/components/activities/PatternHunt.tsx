@@ -25,23 +25,20 @@ export function PatternHunt() {
   }
 
   return (
-    <ActivityCard id="pattern-hunt" tag="Activity 2 · Game" title="Pattern Hunt" topic="A · Math in Our World">
-      <p className="mb-5 text-muted">
+    <ActivityCard id="pattern-hunt" tag="Activity 2 · Game" title="Pattern Hunt" topic="A · Math in Our World" color="leaf">
+      <p className="mb-6 text-lg text-muted">
         Six sequences. One of them is the famous <strong className="text-ink">Fibonacci sequence</strong>. Type the next
         number in each, then check your answers.
       </p>
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {patternHunt.map((p, i) => {
           const right = checked && nums[i] === p.next;
-          const wrong = checked && !right;
+          const bg = !checked ? "bg-paper" : right ? "bg-leaf" : "bg-flame";
           return (
-            <div
-              key={p.id}
-              className={`rounded-xl border-2 p-4 ${right ? "border-emerald-700 bg-emerald-50" : wrong ? "border-red-700/60 bg-red-50" : "border-line bg-white"}`}
-            >
-              <div className="flex flex-wrap items-center gap-2 font-mono text-lg">
+            <div key={p.id} className={`border-[3px] border-ink p-4 ${bg}`}>
+              <div className="flex flex-wrap items-center gap-2 font-mono text-lg font-semibold">
                 {p.terms.map((t, j) => (
-                  <span key={j} className="rounded-md bg-paper px-2 py-0.5">
+                  <span key={j} className="border-2 border-ink bg-paper px-2 py-0.5">
                     {t}
                   </span>
                 ))}
@@ -53,31 +50,31 @@ export function PatternHunt() {
                   inputMode="numeric"
                   value={guesses[i]}
                   disabled={checked}
-                  onChange={(e) => setGuesses((g) => g.map((x, j) => (j === i ? e.target.value.replace(/[^\d-]/g, "") : x)))}
+                  onChange={(e) =>
+                    setGuesses((g) => g.map((x, j) => (j === i ? e.target.value.replace(/[^\d-]/g, "") : x)))
+                  }
                   placeholder="?"
-                  className="w-20 rounded-md border-2 border-gold/60 bg-white px-2 py-0.5 text-center outline-none focus:border-maroon"
+                  className="w-20 border-[3px] border-ink bg-sun px-2 py-0.5 text-center outline-none placeholder:text-ink focus:bg-paper"
                 />
               </div>
               {checked && (
-                <p className="mt-2 text-sm">
-                  <strong>{right ? "✓ " : `✗ It's ${p.next}. `}</strong>
-                  <span className="text-muted">
-                    {p.name}: {p.rule}
-                  </span>
+                <p className="mt-3 text-sm">
+                  <strong>{right ? "✓ Correct. " : `✗ It's ${p.next}. `}</strong>
+                  {p.name}: {p.rule}
                 </p>
               )}
             </div>
           );
         })}
       </div>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-4">
         {!checked ? (
           <PrimaryButton onClick={check} disabled={!filled}>
             Check my answers
           </PrimaryButton>
         ) : (
           <>
-            <p className="font-display text-xl text-maroon">
+            <p className="text-2xl font-extrabold tracking-tight">
               You found {score} of {patternHunt.length} patterns.
             </p>
             <GhostButton onClick={restart}>Play again</GhostButton>

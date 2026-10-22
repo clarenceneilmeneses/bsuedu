@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { nav, site } from "@/lib/site";
+import { nav } from "@/lib/site";
 import { Logo } from "./Logo";
 
 export function SiteHeader() {
@@ -11,14 +11,18 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold/30 bg-maroon-deep/95 text-paper backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
-          <Logo className="size-9" />
-          <span className="font-display text-lg font-semibold tracking-tight">{site.name}</span>
+    <header className="sticky top-0 z-40 border-b-[3px] border-ink bg-paper">
+      <div className="flex h-[72px] items-stretch">
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="flex shrink-0 items-center border-r-[3px] border-ink px-4 hover:bg-sun sm:px-5"
+          aria-label="Math in Motion home"
+        >
+          <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main">
+        <nav className="hidden flex-1 items-center justify-center gap-1 px-4 xl:flex" aria-label="Main">
           {nav.slice(1).map((item) => {
             const active = pathname === item.href;
             return (
@@ -26,44 +30,55 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors ${
-                  active ? "bg-gold font-semibold text-maroon-deep" : "text-paper/80 hover:bg-white/10 hover:text-paper"
+                className={`whitespace-nowrap px-3 py-2 text-[15px] font-bold uppercase tracking-tight ${
+                  active ? "underline decoration-[3px] underline-offset-[10px]" : "hover:underline hover:decoration-2 hover:underline-offset-[10px]"
                 }`}
               >
-                {item.label}
+                {item.short}
               </Link>
             );
           })}
         </nav>
 
-        <button
-          type="button"
-          className="rounded-md p-2 hover:bg-white/10 xl:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span className="sr-only">Menu</span>
-          <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+        <div className="ml-auto flex items-stretch border-l-[3px] border-ink xl:ml-0">
+          <Link
+            href="/interact"
+            className="hidden items-center gap-2 px-6 text-[15px] font-bold uppercase hover:bg-pool sm:flex"
+          >
+            <span aria-hidden className="grid size-7 place-items-center rounded-full border-2 border-ink text-xs">
+              ▶
+            </span>
+            Play now
+          </Link>
+          <button
+            type="button"
+            className="flex items-center px-5 hover:bg-sun sm:border-l-[3px] sm:border-ink xl:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span className="sr-only">Menu</span>
+            <svg viewBox="0 0 24 24" className="size-7" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+              {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M3 7h18M3 12h18M3 17h18" />}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="border-t border-white/10 px-4 pb-4 xl:hidden" aria-label="Main">
-          <ol className="grid gap-1 pt-2 sm:grid-cols-2">
+        <nav id="mobile-nav" className="border-t-[3px] border-ink xl:hidden" aria-label="Main">
+          <ol className="grid sm:grid-cols-2">
             {nav.map((item, i) => (
-              <li key={item.href}>
+              <li key={item.href} className="border-b-2 border-ink sm:odd:border-r-2">
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
                   aria-current={pathname === item.href ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 ${
-                    pathname === item.href ? "bg-gold font-semibold text-maroon-deep" : "hover:bg-white/10"
+                  className={`flex items-center gap-4 px-5 py-4 text-lg font-bold uppercase ${
+                    pathname === item.href ? "bg-sun" : "hover:bg-pool"
                   }`}
                 >
-                  <span className="font-mono text-xs opacity-60">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-sm font-normal">{String(i + 1).padStart(2, "0")}</span>
                   {item.label}
                 </Link>
               </li>

@@ -24,11 +24,11 @@ export function FareFunction() {
   return (
     <div className="grid gap-6 md:grid-cols-2 md:items-center">
       <div>
-        <p className="rounded-xl bg-paper p-4 font-mono text-sm leading-relaxed">
+        <p className="border-[3px] border-ink bg-sun p-4 font-mono font-semibold">
           f(d) = {BASE} + {PER_KM} · max(0, ⌈d⌉ − {BASE_KM})
         </p>
-        <label htmlFor="fare-d" className="mt-4 block text-sm font-medium">
-          Distance d = <span className="font-mono text-maroon">{d.toFixed(1)} km</span>
+        <label htmlFor="fare-d" className="mt-5 block font-bold uppercase">
+          Distance d = <span className="font-mono">{d.toFixed(1)} km</span>
         </label>
         <input
           id="fare-d"
@@ -38,31 +38,36 @@ export function FareFunction() {
           step={0.5}
           value={d}
           onChange={(e) => setD(Number(e.target.value))}
-          className="mt-2 w-full accent-[var(--maroon)]"
+          className="mt-2 w-full accent-[var(--ink)]"
         />
-        <p className="mt-3 font-display text-3xl text-maroon">f({d}) = ₱{fare(d).toFixed(2)}</p>
-        <p className="mt-2 text-sm text-muted">
-          Every input distance gives exactly <strong>one</strong> fare, which is what makes it a function. It is
-          piecewise: flat for the first {BASE_KM} km, then it steps up at every new kilometre. (Example rates only, not an
-          official fare matrix.)
+        <p className="mt-3 text-4xl font-extrabold">f({d}) = ₱{fare(d).toFixed(2)}</p>
+        <p className="mt-3 text-muted">
+          Every input distance gives exactly <strong className="text-ink">one</strong> fare, which is what makes it a
+          function. It is piecewise: flat for the first {BASE_KM} km, then it steps up at every new kilometre. (Example rates
+          only, not an official fare matrix.)
         </p>
       </div>
-      <svg viewBox={`-28 -6 ${W + 40} ${H + 30}`} className="w-full" role="img" aria-label="Graph of fare against distance">
-        <line x1="0" y1={H} x2={W} y2={H} stroke="var(--muted)" strokeWidth="1" />
-        <line x1="0" y1="0" x2="0" y2={H} stroke="var(--muted)" strokeWidth="1" />
+      <svg
+        viewBox={`-34 -10 ${W + 50} ${H + 36}`}
+        className="w-full border-[3px] border-ink bg-paper"
+        role="img"
+        aria-label="Graph of fare against distance"
+      >
+        <line x1="0" y1={H} x2={W} y2={H} stroke="var(--ink)" strokeWidth="2.5" />
+        <line x1="0" y1="0" x2="0" y2={H} stroke="var(--ink)" strokeWidth="2.5" />
         {[0, 5, 10, 15, 20].map((k) => (
-          <text key={k} x={x(k)} y={H + 16} fontSize="10" textAnchor="middle" fill="var(--muted)">
+          <text key={k} x={x(k)} y={H + 16} fontSize="10" fontWeight="600" textAnchor="middle" fill="var(--ink)">
             {k} km
           </text>
         ))}
         {[BASE, Math.round(maxFare)].map((f) => (
-          <text key={f} x={-6} y={y(f)} fontSize="10" textAnchor="end" dominantBaseline="middle" fill="var(--muted)">
+          <text key={f} x={-6} y={y(f)} fontSize="10" fontWeight="600" textAnchor="end" dominantBaseline="middle" fill="var(--ink)">
             ₱{f}
           </text>
         ))}
-        <path d={path} fill="none" stroke="var(--gold)" strokeWidth="2.5" />
-        <line x1={x(d)} y1={H} x2={x(d)} y2={y(fare(d))} stroke="var(--maroon)" strokeDasharray="3 3" />
-        <circle cx={x(d)} cy={y(fare(d))} r="5" fill="var(--maroon)" />
+        <path d={path} fill="none" stroke="var(--pool)" strokeWidth="4" />
+        <line x1={x(d)} y1={H} x2={x(d)} y2={y(fare(d))} stroke="var(--ink)" strokeWidth="1.5" strokeDasharray="3 3" />
+        <circle cx={x(d)} cy={y(fare(d))} r="6" fill="var(--flame)" stroke="var(--ink)" strokeWidth="2" />
       </svg>
     </div>
   );

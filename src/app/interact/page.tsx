@@ -5,45 +5,34 @@ import { PatternHunt } from "@/components/activities/PatternHunt";
 import { PersonalityQuiz } from "@/components/activities/PersonalityQuiz";
 import { PolyaStrategy } from "@/components/activities/PolyaStrategy";
 import { SymbolQuiz } from "@/components/activities/SymbolQuiz";
-import { PageHero } from "@/components/PageHero";
+import { JumpBar, PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = { title: "Interact" };
-
-const jump = [
-  ["#symbol-quiz", "Quiz"],
-  ["#pattern-hunt", "Game"],
-  ["#polya", "Reasoning"],
-  ["#poll", "Survey"],
-  ["#personality", "Personality quiz"],
-];
 
 export default function InteractPage() {
   return (
     <>
-      <PageHero number="03" eyebrow="Interact" title="Your turn. Play, answer, vote, solve.">
+      <PageHero number="03" eyebrow="Interact" title="Your turn. Play, answer, vote, solve." color="flame" art="sequence">
         Five activities. Your answers are saved anonymously (no names, no logins) and power the charts on{" "}
-        <Link href="/discover" className="text-gold-soft underline underline-offset-4">
+        <Link href="/discover" className="link font-bold">
           What Did We Discover?
         </Link>
       </PageHero>
 
-      <nav className="sticky top-[61px] z-30 border-b border-line bg-paper/90 backdrop-blur" aria-label="Activities">
-        <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 py-2 text-sm">
-          {jump.map(([href, label], i) => (
-            <a key={href} href={href} className="whitespace-nowrap rounded-full px-3 py-1.5 text-maroon hover:bg-maroon/10">
-              <span className="font-mono text-xs text-gold">{i + 1}</span> {label}
-            </a>
-          ))}
-          <Link href="/math-in-action#golden" className="whitespace-nowrap rounded-full px-3 py-1.5 text-maroon hover:bg-maroon/10">
-            <span className="font-mono text-xs text-gold">+</span> Golden ratio research
-          </Link>
-          <Link href="/community" className="whitespace-nowrap rounded-full px-3 py-1.5 text-maroon hover:bg-maroon/10">
-            <span className="font-mono text-xs text-gold">+</span> Freedom wall
-          </Link>
-        </div>
-      </nav>
+      <JumpBar
+        label="Activities"
+        items={[
+          { href: "#symbol-quiz", label: "1 · Quiz" },
+          { href: "#pattern-hunt", label: "2 · Game" },
+          { href: "#polya", label: "3 · Reasoning" },
+          { href: "#poll", label: "4 · Survey" },
+          { href: "#personality", label: "5 · Personality quiz" },
+          { href: "/math-in-action#golden", label: "+ Golden ratio research" },
+          { href: "/community", label: "+ Freedom wall" },
+        ]}
+      />
 
-      <div className="mx-auto grid max-w-4xl gap-10 px-4 py-12">
+      <div className="mx-auto grid max-w-4xl gap-12 px-4 py-14">
         <SymbolQuiz />
         <PatternHunt />
         <PolyaStrategy />

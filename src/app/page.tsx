@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { HeroArt } from "@/components/HeroArt";
 import { SectionTitle } from "@/components/PageHero";
 import { getStats } from "@/lib/stats";
 import { site } from "@/lib/site";
@@ -11,6 +12,7 @@ const topics = [
     items: "Patterns · Fibonacci · Math in daily life",
     href: "/explore#world",
     glyph: "1, 1, 2, 3, 5, 8",
+    color: "bg-leaf",
   },
   {
     letter: "B",
@@ -18,6 +20,7 @@ const topics = [
     items: "Symbols · Sets · Functions & relations",
     href: "/explore#language",
     glyph: "∀x ∈ A",
+    color: "bg-pool",
   },
   {
     letter: "C",
@@ -25,6 +28,7 @@ const topics = [
     items: "Inductive & deductive · Pólya's 4 steps · Puzzles",
     href: "/explore#reasoning",
     glyph: "2, 4, 8, 16, ?",
+    color: "bg-flame",
   },
 ];
 
@@ -37,27 +41,27 @@ const flow = [
 ];
 
 const activities = [
-  { title: "Symbol Quiz", kind: "Quiz", href: "/interact#symbol-quiz" },
-  { title: "Pattern Hunt", kind: "Game", href: "/interact#pattern-hunt" },
-  { title: "Choose Your Strategy", kind: "Reasoning", href: "/interact#polya" },
-  { title: "Math-in-My-Life Poll", kind: "Survey", href: "/interact#poll" },
-  { title: "What Kind of Mathematician?", kind: "Personality quiz", href: "/interact#personality" },
-  { title: "Are You Golden?", kind: "Mini research", href: "/math-in-action#golden" },
-  { title: "Freedom Wall", kind: "Community", href: "/community" },
-  { title: "Math Shorts", kind: "Videos", href: "/shorts" },
+  { title: "Symbol Quiz", kind: "Quiz", href: "/interact#symbol-quiz", hover: "hover:bg-pool" },
+  { title: "Pattern Hunt", kind: "Game", href: "/interact#pattern-hunt", hover: "hover:bg-leaf" },
+  { title: "Choose Your Strategy", kind: "Reasoning", href: "/interact#polya", hover: "hover:bg-flame" },
+  { title: "Math-in-My-Life Poll", kind: "Survey", href: "/interact#poll", hover: "hover:bg-sun" },
+  { title: "What Kind of Mathematician?", kind: "Personality quiz", href: "/interact#personality", hover: "hover:bg-blush" },
+  { title: "Are You Golden?", kind: "Mini research", href: "/math-in-action#golden", hover: "hover:bg-sun" },
+  { title: "Freedom Wall", kind: "Community", href: "/community", hover: "hover:bg-pool" },
+  { title: "Math Shorts", kind: "Videos", href: "/shorts", hover: "hover:bg-leaf" },
 ];
 
 async function LiveCount() {
   const stats = await getStats();
   if (!stats) return null;
   return (
-    <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-paper/90">
-      <span className="relative flex size-2.5">
-        <span className="absolute inline-flex size-full animate-ping rounded-full bg-gold opacity-75" />
-        <span className="relative inline-flex size-2.5 rounded-full bg-gold" />
+    <p className="mt-8 inline-flex flex-wrap items-center gap-2 border-[3px] border-ink bg-paper px-4 py-2 font-semibold">
+      <span className="relative flex size-3">
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-flame opacity-75" />
+        <span className="relative inline-flex size-3 rounded-full border-2 border-ink bg-flame" />
       </span>
-      <strong className="font-mono">{stats.totals.visitors}</strong> visitors have answered{" "}
-      <strong className="font-mono">{stats.totals.responses}</strong> times so far
+      <span className="font-mono">{stats.totals.visitors}</span> {stats.totals.visitors === 1 ? "visitor" : "visitors"} ·{" "}
+      <span className="font-mono">{stats.totals.responses}</span> {stats.totals.responses === 1 ? "answer" : "answers"} so far
     </p>
   );
 }
@@ -65,45 +69,24 @@ async function LiveCount() {
 export default function Home() {
   return (
     <>
-      <section className="relative overflow-hidden bg-maroon text-paper">
-        <div className="grid-paper-dark absolute inset-0" aria-hidden />
-        <svg
-          viewBox="0 0 400 400"
-          className="absolute -right-28 -top-10 hidden w-[36rem] opacity-30 md:block"
-          aria-hidden
-        >
-          {Array.from({ length: 260 }, (_, i) => {
-            const r = 11.5 * Math.sqrt(i + 0.5);
-            const t = i * 2.39996;
-            return (
-              <circle
-                key={i}
-                cx={(200 + r * Math.cos(t)).toFixed(2)}
-                cy={(200 + r * Math.sin(t)).toFixed(2)}
-                r={(2 + i / 90).toFixed(2)}
-                fill="var(--gold)"
-              />
-            );
-          })}
-        </svg>
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gold-soft">{site.course}</p>
-          <h1 className="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl">
-            Don&apos;t just read math.
-            <span className="block text-gold-soft">Play with it.</span>
+      <section className="grid border-b-[3px] border-ink md:grid-cols-2">
+        <div className="bg-pool px-5 py-14 sm:px-10 md:py-24 lg:px-16">
+          <p className="text-sm font-bold uppercase tracking-wide">{site.course}</p>
+          <h1 className="mt-6 text-5xl font-extrabold leading-[0.98] tracking-tight sm:text-7xl">
+            Don&apos;t just read math. Play with it.
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-paper/85">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed">
             Hunt for patterns, decode math symbols, crack puzzles, and vote. Every answer you give becomes data, and we turn
             that data into real findings about how people think about math.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/interact"
-              className="rounded-full bg-gold px-6 py-3 font-semibold text-maroon-deep shadow-lg shadow-black/20 transition hover:bg-gold-soft"
+              className="border-[3px] border-ink bg-ink px-6 py-3 font-bold uppercase text-paper hover:bg-sun hover:text-ink"
             >
               Start playing →
             </Link>
-            <Link href="/explore" className="rounded-full border border-paper/40 px-6 py-3 font-semibold hover:bg-white/10">
+            <Link href="/explore" className="border-[3px] border-ink bg-paper px-6 py-3 font-bold uppercase hover:bg-sun">
               Explore the math
             </Link>
           </div>
@@ -111,21 +94,21 @@ export default function Home() {
             <LiveCount />
           </Suspense>
         </div>
+        <div className="relative min-h-72 border-t-[3px] border-ink md:border-t-0 md:border-l-[3px]">
+          <HeroArt kind="fibonacci" />
+        </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-20">
         <SectionTitle kicker="How this site works" title="From a math idea to real data">
           Our site follows the same path a mathematician does.
         </SectionTitle>
-        <ol className="mt-8 grid gap-3 sm:grid-cols-5">
+        <ol className="mt-10 grid border-[3px] border-ink sm:grid-cols-5">
           {flow.map((f, i) => (
-            <li key={f.step}>
-              <Link
-                href={f.href}
-                className="group flex h-full flex-col rounded-xl border border-line bg-card p-4 transition hover:-translate-y-0.5 hover:border-gold hover:shadow"
-              >
-                <span className="font-mono text-xs text-gold">0{i + 1}</span>
-                <span className="mt-1 font-display text-lg font-semibold text-maroon">{f.step}</span>
+            <li key={f.step} className={`border-ink ${i > 0 ? "border-t-[3px] sm:border-t-0 sm:border-l-[3px]" : ""}`}>
+              <Link href={f.href} className="flex h-full flex-col p-5 transition-colors hover:bg-sun">
+                <span className="font-mono text-sm font-semibold">0{i + 1}</span>
+                <span className="mt-2 text-xl font-extrabold leading-tight">{f.step}</span>
                 <span className="mt-1 text-sm text-muted">{f.text}</span>
               </Link>
             </li>
@@ -133,51 +116,50 @@ export default function Home() {
         </ol>
       </section>
 
-      <section className="bg-maroon-deep py-16 text-paper">
-        <div className="mx-auto max-w-6xl px-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold">Three topics</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">What you&apos;ll explore</h2>
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
-            {topics.map((t) => (
-              <Link key={t.letter} href={t.href} className="group text-center">
-                <div className="hex mx-auto grid size-44 place-items-center bg-gold p-1.5 transition group-hover:scale-105">
-                  <div className="hex grid size-full place-items-center bg-paper">
-                    <span className="px-6 font-mono text-lg text-maroon">{t.glyph}</span>
-                  </div>
-                </div>
-                <p className="mt-5 font-display text-xl text-gold-soft">
-                  {t.letter}. {t.title}
-                </p>
-                <p className="mt-1 text-sm text-paper/70">{t.items}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
+      <section className="grid border-y-[3px] border-ink md:grid-cols-3">
+        {topics.map((t, i) => (
+          <Link
+            key={t.letter}
+            href={t.href}
+            className={`group flex flex-col justify-between gap-10 p-8 sm:p-10 ${t.color} ${
+              i > 0 ? "border-t-[3px] border-ink md:border-t-0 md:border-l-[3px]" : ""
+            }`}
+          >
+            <span className="inline-block self-start border-[3px] border-ink bg-paper px-3 py-2 font-mono text-2xl font-semibold">
+              {t.glyph}
+            </span>
+            <span>
+              <span className="block text-sm font-bold uppercase">Topic {t.letter}</span>
+              <span className="mt-1 block text-3xl font-extrabold leading-tight tracking-tight group-hover:underline">
+                {t.title}
+              </span>
+              <span className="mt-2 block">{t.items}</span>
+            </span>
+          </Link>
+        ))}
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-20">
         <SectionTitle kicker="Things to do" title="Eight ways to think like a mathematician">
           Pick any. Each one takes about two minutes.
         </SectionTitle>
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid border-l-[3px] border-t-[3px] border-ink sm:grid-cols-2 lg:grid-cols-4">
           {activities.map((a) => (
-            <li key={a.title}>
-              <Link
-                href={a.href}
-                className="flex h-full items-start justify-between gap-3 rounded-xl border border-line bg-card p-4 transition hover:border-gold hover:bg-gold/5"
-              >
-                <span>
-                  <span className="block text-xs uppercase tracking-wider text-gold">{a.kind}</span>
-                  <span className="mt-1 block font-semibold text-ink">{a.title}</span>
-                </span>
-                <span className="text-maroon" aria-hidden>
-                  →
+            <li key={a.title} className="border-r-[3px] border-b-[3px] border-ink">
+              <Link href={a.href} className={`flex h-full min-h-32 flex-col justify-between gap-4 p-5 transition-colors ${a.hover}`}>
+                <span className="text-xs font-bold uppercase">{a.kind}</span>
+                <span className="flex items-end justify-between gap-3 text-xl font-extrabold leading-tight">
+                  {a.title}
+                  <span aria-hidden>→</span>
                 </span>
               </Link>
             </li>
           ))}
         </ul>
-        <blockquote className="mt-12 border-l-4 border-gold pl-5 font-display text-2xl italic text-maroon sm:text-3xl">
+      </section>
+
+      <section className="border-y-[3px] border-ink bg-sun px-4 py-16">
+        <blockquote className="mx-auto max-w-4xl text-center text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
           “Not the prettiest website, but one that makes visitors think like mathematicians.”
         </blockquote>
       </section>
