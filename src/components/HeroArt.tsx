@@ -4,7 +4,7 @@ import { fibonacciLayout } from "@/lib/fibonacci";
 export type ArtKind = "fibonacci" | "symbols" | "sequence" | "sunflower" | "chart" | "wall" | "play" | "venn";
 
 const INK = "var(--ink)";
-const palette = ["var(--sun)", "var(--pool)", "var(--flame)", "var(--leaf)", "var(--ocean)", "var(--paper)", "var(--blush)"];
+const palette = ["var(--sun)", "var(--pool)", "var(--flame)", "var(--leaf)", "var(--ocean)", "var(--paper)", "var(--sun)"];
 const f = (n: number) => n.toFixed(2);
 
 const backgrounds: Record<ArtKind, string> = {
